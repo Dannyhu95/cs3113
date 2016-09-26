@@ -36,8 +36,8 @@ float angle= angle = -130* 3.1415/180;
 float playerAX = -6.0f+0.5;
 float playerAY = 0.0;
 int Ascore = 0;
-float playerBX = 6-playerWidth-0.5;
-float playerBY = 0.0;
+float playerBX = 6-0.5;
+float playerBY = playerAY;
 int Bscore= 0;
 float ballX=(playerAX+playerBX)/2;
 float ballY=(playerAY+playerBY)/2;
@@ -74,10 +74,7 @@ void ProcessEvents(){
         else if(event.type ==SDL_KEYDOWN){
             if(event.key.keysym.scancode ==SDL_SCANCODE_SPACE){
                 //do an action if spacebar is pressed
-                if (speed == 0){
-                    speed = 4;
-                }
-                else{
+                if (speed == 4){
                     speed = 0;
                 }
             }
@@ -100,19 +97,19 @@ void Update(){
     
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     if(keys[SDL_SCANCODE_W]){
-        if((playerAY+playerWidth*2)<=3.5)
+        if((playerAY+playerHeight/2)<=3.5)
             playerAY += elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_S]){
-        if((playerAY- playerWidth) >=-3.5)
+        if((playerAY- playerHeight/2) >=-3.5)
             playerAY -= elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_UP]){
-        if((playerBY+playerWidth*2)<=3.5)
+        if((playerBY+playerHeight/2)<=3.5)
             playerBY += elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_DOWN]){
-        if((playerBY- playerWidth) >=-3.5)
+        if((playerBY- playerHeight/2) >=-3.5)
             playerBY -= elapsed *2.0;
     }
     modelMatrixA.identity();
@@ -121,7 +118,7 @@ void Update(){
     program->setProjectionMatrix(projectionMatrix);
     program->setViewMatrix(viewMatrix);
     //player 1
-    float vertices[] = {0.0f, -0.5f, 0.5f, -0.5f, 0.5f, 1.0f, 0.0f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f};
+    float vertices[] = {-0.25f, -0.75f, 0.25f, -0.75f, 0.25f, 0.75f, -0.25f, -0.75f, 0.25f, 0.75f, -0.25f, 0.75f};
     glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -132,8 +129,7 @@ void Update(){
     modelMatrixB.identity();
     modelMatrixB.Translate(playerBX, playerBY, 0);
     program->setModelMatrix(modelMatrixB);
-    float vertices2[] = {0.0f, -0.5f, 0.5f, -0.5f, 0.5f, 1.0f, 0.0f, -0.5f, 0.5f, 1.0f, 0.0f, 1.0f};
-    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices2);
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program->positionAttribute);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glDisableVertexAttribArray(program->positionAttribute);
@@ -147,11 +143,11 @@ void Update(){
     float ballTop = ballY-(ballside/2);
     float ballBot = ballY+(ballside/2);
     
-    float aRight =playerAX+(playerWidth/2)+ballside/2;
+    float aRight =playerAX+(playerWidth/2);
     float aTop = playerAY-(playerHeight/2);
     float aBot = playerAY+(playerHeight/2);
     
-    float bRight = playerBX-(playerWidth/2)+ballside/2;
+    float bLeft = playerBX-(playerWidth/2);
     float bTop = playerBY-(playerHeight/2);
     float bBot = playerBY+(playerHeight/2);
     
@@ -164,7 +160,7 @@ void Update(){
     }
     
     //right block
-    if(ballLeft > bRight && ballBot > bTop && ballTop < bBot){
+    if(ballLeft > bLeft && ballBot > bTop && ballTop < bBot){
         //printf("true");
         xDir=-fabs(xDir);
         yDir =ballY-playerBY;

@@ -39,8 +39,8 @@ int Ascore = 0;
 float playerBX = 6-playerWidth-0.5;
 float playerBY = 0.0;
 int Bscore= 0;
-float ballX=(playerAX+(playerBX+0.5))/2;
-float ballY=(playerAY+(playerBY+0.5))/2;
+float ballX=(playerAX+playerBX)/2;
+float ballY=(playerAY+playerBY)/2;
 float speed = 0;
 float yDir = sin(angle);
 float xDir = cos(angle);
@@ -100,19 +100,19 @@ void Update(){
     
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     if(keys[SDL_SCANCODE_W]){
-        if((playerAY+ 0.5)<=3.5)
+        if((playerAY+playerWidth*2)<=3.5)
             playerAY += elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_S]){
-        if((playerAY- 0.5) >=-3.5)
+        if((playerAY- playerWidth) >=-3.5)
             playerAY -= elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_UP]){
-        if((playerBY+ 0.5)<=3.5)
+        if((playerBY+playerWidth*2)<=3.5)
             playerBY += elapsed *2.0;
     }
     if(keys[SDL_SCANCODE_DOWN]){
-        if((playerBY- 0.5) >=-3.5)
+        if((playerBY- playerWidth) >=-3.5)
             playerBY -= elapsed *2.0;
     }
     modelMatrixA.identity();
@@ -143,17 +143,17 @@ void Update(){
     ballX += xDir*elapsed*speed;
     ballY += yDir*elapsed*speed;
     ball.Translate(ballX, ballY,0);
-    float ballLeft =ballX-(0.1);
-    float ballTop = ballY-(0.1);
-    float ballBot = ballY+(0.1);
+    float ballLeft =ballX-(ballside/2);
+    float ballTop = ballY-(ballside/2);
+    float ballBot = ballY+(ballside/2);
     
     float aRight =playerAX+(playerWidth/2)+ballside/2;
-    float aTop = playerAY-(playerHeight/2)+ballside/2;
-    float aBot = playerAY+(playerHeight/2)+ballside/2;
+    float aTop = playerAY-(playerHeight/2);
+    float aBot = playerAY+(playerHeight/2);
     
     float bRight = playerBX-(playerWidth/2)+ballside/2;
-    float bTop = playerBY-(playerHeight/2)+ballside/2;
-    float bBot = playerBY+(playerHeight/2)+ballside/2;
+    float bTop = playerBY-(playerHeight/2);
+    float bBot = playerBY+(playerHeight/2);
     
     
     //left block

@@ -39,8 +39,8 @@ int Ascore = 0;
 float playerBX = 6-0.5;
 float playerBY = playerAY;
 int Bscore= 0;
-float ballX=(playerAX+playerBX)/2;
-float ballY=(playerAY+playerBY)/2;
+float ballX=0;
+float ballY=0;
 float speed = 0;
 float yDir = sin(angle);
 float xDir = cos(angle);
@@ -142,6 +142,7 @@ void Update(){
     float ballLeft =ballX-(ballside/2);
     float ballTop = ballY-(ballside/2);
     float ballBot = ballY+(ballside/2);
+    float ballRight =ballX+(ballside/2);
     
     float aRight =playerAX+(playerWidth/2);
     float aTop = playerAY-(playerHeight/2);
@@ -160,7 +161,7 @@ void Update(){
     }
     
     //right block
-    if(ballLeft > bLeft && ballBot > bTop && ballTop < bBot){
+    if(ballRight> bLeft && ballBot > bTop && ballTop < bBot){
         //printf("true");
         xDir=-fabs(xDir);
         yDir =ballY-playerBY;

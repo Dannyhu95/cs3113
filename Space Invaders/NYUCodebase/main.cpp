@@ -347,13 +347,13 @@ void UpdateGameLevel(){
         }
     }
     
-    
+    //alien bullet collision;
     for (int i=0; i<MAX_BULLETS; i++){
-        std::cout<<enemyBullets[i].position.y<<std::endl;
-        if (enemyBullets[i].position.y -0.175 <=playerY+playerWidth/2 && enemyBullets[i].position.x<playerX+playerWidth/2 && enemyBullets[i].position.x > playerX-playerWidth/2){
-            enemyBullets[i].position.y=-2000;
-            enemyBullets[i].position.x=0;
+        if (enemyBullets[i].position.y -0.175 < playerY+playerWidth/2 && enemyBullets[i].position.x<playerX+playerWidth/2 && enemyBullets[i].position.x > playerX-playerWidth/2 && enemyBullets[i].position.y +0.175 >playerY-playerWidth/2){
+            enemyBullets[i].position.y=2000;
+            enemyBullets[i].position.x=-2000;
             enemyBullets[i].velocity.y=0;
+            //std::cout<<"game over"<<std::endl;
             state = STATE_MAIN_MENU;
         }
     }

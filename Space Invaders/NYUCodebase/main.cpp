@@ -239,6 +239,44 @@ void Setup(){
     }
 }
 
+void reset(){
+    score =0;
+    for (int i=0; i<20; i++){
+        entities.pop_back();
+    }
+    //std::cout<<entities.size()<<std::endl;
+    playerWidth =(playerSprite.width/playerSprite.height)*playerSprite.size;
+    enemyWidth = (alien.sprite.width/alien.sprite.height)*alien.sprite.size;
+    playerX = 0.0f;
+    playerY = -2.0f + enemyWidth/2;
+    float xpos = 1;
+    float ypos = 2.0f - enemyWidth/2;
+    alien.position.x=-3.5;
+    alien.position.y= 2.0f - enemyWidth/2;
+    for(int i=0; i < 10; i++) {
+        alien.position.x += xpos * 0.6;
+        entities.push_back(alien);
+    }
+    alien.position.x=-3.5;
+    for(int i=0; i < 10; i++) {
+        alien.position.x += xpos * 0.6;
+        alien.position.y = ypos -enemyWidth;
+        entities.push_back(alien);
+    }
+    for (int i=0; i<MAX_BULLETS; i++){
+        bullets[i].position.y=-2000;
+        bullets[i].position.x=0;
+        bullets[i].velocity.y=0;
+        enemyBullets[i].position.y=2000;
+        enemyBullets[i].position.x=-2000;
+        enemyBullets[i].velocity.y=0;
+    }
+    for( int i=0; i <entities.size(); i++){
+        entities[i].alive=true;
+        entities[i].cooldown= (float)rand() / (float)RAND_MAX * 100.0f;
+    }
+}
+
 
 
 void ProcessEvents(){
@@ -325,6 +363,7 @@ void UpdateGameLevel(){
     }
     if (score >= 2000){
         state = STATE_MAIN_MENU;
+        reset();
     }
     
     
@@ -355,6 +394,7 @@ void UpdateGameLevel(){
             enemyBullets[i].velocity.y=0;
             //std::cout<<"game over"<<std::endl;
             state = STATE_MAIN_MENU;
+            reset();
         }
     }
 }

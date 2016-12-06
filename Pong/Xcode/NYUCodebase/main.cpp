@@ -191,14 +191,15 @@ void Update(){
         speed =0;
         Ascore+=1;
     }
-    
+}
+
+void Render(){
     program->setModelMatrix(ball);
     float verticesball[] = {-0.1, -0.1, 0.1, -0.1, 0.1, 0.1, -0.1, -0.1, 0.1, 0.1, -0.1, 0.1};
     glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, verticesball);
     glEnableVertexAttribArray(program->positionAttribute);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glDisableVertexAttribArray(program->positionAttribute);
-    
     SDL_GL_SwapWindow(displayWindow);
 }
 
@@ -208,6 +209,7 @@ int main(int argc, char *argv[])
     while (!done) {
         ProcessEvents();
         Update();
+        Render();
     }
     
     SDL_Quit();
